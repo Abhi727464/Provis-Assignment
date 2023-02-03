@@ -4,13 +4,16 @@ import { useDispatch } from "react-redux";
 import "./style.css";
 import { ADD, DLT } from "../redux/actions/Action";
 import { NavLink } from "react-router-dom";
-import { Form } from "react-bootstrap";
+import { Dropdown, Form } from "react-bootstrap";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
 
-const Cards = ({ data }) => {
+const Cards = ({ data, setData }) => {
+  const [filterData, setFilterData] = useState(data);
   const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("All");
   const dispatch = useDispatch();
   const send = (e) => {
     // console.log(e)
@@ -40,30 +43,63 @@ const Cards = ({ data }) => {
       theme: "light",
     });
   };
+
+  useEffect(() => {
+    if(category==="All"){
+      setFilterData(data);
+    }
+    else{
+      let tempdata = data.filter((item) => item.category == category);
+    setFilterData(tempdata);
+    console.log(category);
+    }
+    
+  }, [category]);
+
+  useEffect(() => {
+  console.log(data,"data")
+    setFilterData(data);
+    
+  }, [data]);
   return (
     <div className="container mt-3">
       <div className="row d-flex justify-content-center align-items-center">
-        <div className="col-4">
-          <h1 className="text-center">All Items</h1>
+        <div className="col-12">
+          <h1 className="text-center m-4">All Items</h1>
         </div>
-        <div className="col-4">
+        <div className="col-md-4">
           <Form className="d-flex mx-3">
             <Form.Control
               type="search"
-              placeholder="Search Category"
+              placeholder="Search Products"
               className="me-2"
               aria-label="Search"
               onChange={(e) => setSearch(e.target.value)}
             />
           </Form>
         </div>
+        <div className="col-md-4">
+          <select className="select border border-dark"
+            value={category}
+            onChange={(e) => {
+              setCategory(e.target.value);
+            }}
+          >
+            <option value="All">All</option>
+            <option value="men's clothing">Men's Clothing</option>
+            <option value="women's clothing">Women's Clothing</option>
+            <option value="jewelery">Jewelary</option>
+            <option value="electronics">Electronics</option>
+          </select>
+        </div>
       </div>
 
       <div className="row d-flex justify-content-center align-items-center">
-        {data
+      
+        {filterData
           .filter((val) => {
             if (
-              val.category.toLowerCase().includes(search.toLocaleLowerCase())
+              val.title.toLowerCase().includes(search.toLocaleLowerCase())
             ) {
               return val;
             } else if (search == "") {
@@ -100,8 +136,7 @@ const Cards = ({ data }) => {
                           color: "white",
                           padding: "2px 6px",
                           borderRadius: "5px",
-                          fontSize:"13px"
-                          
+                          fontSize: "13px",
                         }}
                       >
                         {item.rating.rate}★

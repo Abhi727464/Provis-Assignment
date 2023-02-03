@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
+import { Table, ToastContainer } from "react-bootstrap";
 import "./style.css";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { DLT } from "../redux/actions/Action";
+import { toast } from "react-toastify";
 
 const CardDetails = () => {
   const [data, setData] = useState([]);
@@ -26,6 +27,16 @@ const CardDetails = () => {
   const dlt = (id)=>{
     dispatch(DLT(id));
     history("/");
+    toast.error("Item removed", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   }
 
   useEffect(() => {
@@ -111,6 +122,7 @@ const CardDetails = () => {
             );
           })}
         </div>
+        <ToastContainer />
       </section>
     </div>
   );

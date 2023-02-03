@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Routes, Route } from 'react-router-dom';
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+
 function App() {
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -20,7 +21,7 @@ function App() {
    <>
    <Header data={data}/>
    <Routes>
-    <Route path='/' element={<Cards data={data}/>}/>
+    <Route path='/' element={<Cards data={data} setData={setData}/>}/>
     <Route path='/cart/:id' element={<CardDetails data={data}/>}/>
    </Routes>
    </>

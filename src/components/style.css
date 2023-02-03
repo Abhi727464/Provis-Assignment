@@ -55,8 +55,13 @@ p.crop{
     justify-content: center;
   }
 }
-
-@media (max-width: 450px) {
+.select{
+  width: 400px;
+  height: 35px;
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+@media (max-width: 750px) {
   .smalltrash {
     display: block;
   }
@@ -74,5 +79,10 @@ p.crop{
 
   .items_img img {
     width: 16rem;
+  }
+  .select{
+    margin: 20px;
+    width: 90%;
+    
   }
 }
